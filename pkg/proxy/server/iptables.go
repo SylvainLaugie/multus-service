@@ -222,9 +222,9 @@ func (ipt *iptableBuffer) generateServiceEndpointSliceForwardingRules(s *Server,
 		//-A MULTUS-SEP-ZZZZZ -p tcp -m comment --comment "NAMESPACE/POD:port1"
 		//-m tcp -j DNAT --to-destination <POD IP>
 		writeLine(ipt.sepRules, "-A", endpointChainName,
-			"-p", "tcp",
+			"-p", svcInfo.Protocol,
 			"-m", "comment", "--comment", fmt.Sprintf("\"%s\"", svcInfo.Name),
-			"-m", "tcp", "-j", "DNAT", "--to-destination",
+			"-m", svcInfo.Protocol, "-j", "DNAT", "--to-destination",
 			fmt.Sprintf("%s", endpoint.String()))
 		totalEndpointSlices--
 	}
